@@ -1,3 +1,3 @@
-# Tweet Agent
+# Pokemon Guessing Game
 
-This app will basically take an input and try to create a tweet based on user choice.
+You will be shown a blacked out pokemon image from any generation and you will have to guess which pokemon is it.
