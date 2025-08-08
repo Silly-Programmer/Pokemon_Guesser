@@ -8,7 +8,7 @@ const Navbar = () => {
 
   const navLinks = [
     { path: '/', label: 'Home' },
-    { path: '/pokedex', label: 'Pokédex' },
+    { path: '/pokemonlist', label: 'PokemonList'},
     { path: '/pokemonguess', label: 'PokemonGuesser'},
     { path: '/about', label: 'About' },
     

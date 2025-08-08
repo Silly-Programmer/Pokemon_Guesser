@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 
 export default function Home() {
@@ -24,13 +25,27 @@ export default function Home() {
         </motion.h1>
 
         <motion.p
-          className="text-lg text-center text-gray-300 drop-shadow-[0_1px_6px_rgba(255,255,255,0.1)]"
+          className="text-lg text-center text-gray-300 mb-6 drop-shadow-[0_1px_6px_rgba(255,255,255,0.1)]"
           initial={{ opacity: 0, y: 10 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.6, duration: 1 }}
         >
           Try searching for a Pokémon using the Pokédex.
         </motion.p>
+
+        {/* Button */}
+        <motion.div
+          initial={{ opacity: 0, scale: 0.9 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ delay: 0.9, duration: 0.5 }}
+        >
+          <Link
+            to="/pokemonlist"
+            className="bg-yellow-400 hover:bg-yellow-500 text-black font-semibold px-6 py-3 rounded-lg shadow-lg transition-transform transform hover:scale-105"
+          >
+            Explore Pokédex
+          </Link>
+        </motion.div>
       </motion.div>
     </div>
   );
