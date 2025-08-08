@@ -8,6 +8,7 @@ function PokemonGuess() {
   const [result, setResult] = useState('');
   const [generation, setGeneration] = useState(1);
   const [speciesList, setSpeciesList] = useState([]);
+  const [wrongAttempts, setWrongAttempts] = useState(0);
 
   useEffect(() => {
     const fetchGenerationSpecies = async () => {
@@ -33,6 +34,7 @@ function PokemonGuess() {
       setPokemon(res.data);
       setGuess('');
       setResult('');
+      setWrongAttempts(0);
     } catch (err) {
       console.error(err);
     }
@@ -51,7 +53,14 @@ function PokemonGuess() {
     if (guess.trim().toLowerCase() === pokemon.name.toLowerCase()) {
       setResult(`🎉 Correct! It’s ${pokemon.name}`);
     } else {
-      setResult(`❌ Wrong! It was ${pokemon.name}`);
+      const newAttempts = wrongAttempts + 1;
+      setWrongAttempts(newAttempts);
+
+      if (newAttempts >= 4) {
+        setResult(`❌ Wrong! The answer was ${pokemon.name}`);
+      } else {
+        setResult(`❌ Try again! Hint ${newAttempts} unlocked below 👇`);
+      }
     }
   };
 
@@ -94,13 +103,18 @@ function PokemonGuess() {
           <motion.img
             src={pokemon.sprites.other['official-artwork'].front_default}
             alt="Who's that Pokémon?"
-            className={`w-64 mx-auto transition duration-300 ${result ? '' : 'brightness-0'}`}
+            className={`w-64 mx-auto transition duration-300 ${result &&
+                (guess.trim().toLowerCase() === pokemon.name.toLowerCase() || wrongAttempts >= 4)
+                ? ''
+                : 'brightness-0'
+              }`}
             draggable={false}
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ duration: 0.5 }}
           />
         )}
+
 
         <form onSubmit={handleSubmit} className="flex justify-center gap-2">
           <input
@@ -126,6 +140,22 @@ function PokemonGuess() {
             transition={{ duration: 0.5 }}
           >
             <p className="text-lg font-medium">{result}</p>
+
+            {/* Hints based on wrongAttempts */}
+            <div className="text-sm text-indigo-200 space-y-1">
+              {wrongAttempts >= 1 && (
+                <p>
+                  🧪 Type(s): {pokemon.types.map(t => t.type.name).join(', ')}
+                </p>
+              )}
+              {wrongAttempts >= 2 && (
+                <p>🔤 First Letter: {pokemon.name.charAt(0).toUpperCase()}</p>
+              )}
+              {wrongAttempts >= 3 && (
+                <p>📏 Height: {pokemon.height} | ⚖️ Weight: {pokemon.weight}</p>
+              )}
+            </div>
+
             <button
               onClick={getRandomPokemon}
               className="bg-green-500 text-white px-4 py-2 rounded-md hover:bg-green-600 shadow-md transition"

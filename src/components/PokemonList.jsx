@@ -24,7 +24,7 @@ const pokemonTypes = [
     { name: 'fairy', icon: '🧚' },
 ];
 
-// Animation variants for each item
+// Animation variants
 const itemVariants = {
     hidden: { opacity: 0, x: -30 },
     visible: (index) => ({
@@ -75,7 +75,7 @@ export default function PokemonList() {
         fetchGenerations();
     }, []);
 
-    // Apply all filters
+    // Apply filters
     useEffect(() => {
         const applyFilters = async () => {
             let filtered = [...pokemonList];
@@ -125,8 +125,8 @@ export default function PokemonList() {
                             key={letter}
                             onClick={() => setSelectedLetter(prev => (prev === letter ? '' : letter))}
                             className={`px-3 py-1 rounded text-sm ${selectedLetter === letter
-                                    ? 'bg-indigo-500 text-white'
-                                    : 'bg-white/10 text-white hover:bg-white/20'
+                                ? 'bg-indigo-500 text-white'
+                                : 'bg-white/10 text-white hover:bg-white/20'
                                 }`}
                         >
                             {letter}
@@ -134,8 +134,9 @@ export default function PokemonList() {
                     ))}
                 </div>
 
-                {/* Generation Filter */}
-                <div className="flex justify-center">
+                {/* Generation + Type Filters Side by Side */}
+                <div className="flex justify-center flex-wrap gap-4">
+                    {/* Generation Filter */}
                     <select
                         value={selectedGeneration}
                         onChange={e => setSelectedGeneration(e.target.value)}
@@ -148,11 +149,8 @@ export default function PokemonList() {
                             </option>
                         ))}
                     </select>
-                </div>
 
-                {/* Type Filter */}
-                {/* Type Filter (Dropdown) */}
-                <div className="flex justify-center">
+                    {/* Type Filter */}
                     <select
                         value={selectedType}
                         onChange={e => setSelectedType(e.target.value)}
@@ -166,7 +164,6 @@ export default function PokemonList() {
                         ))}
                     </select>
                 </div>
-
             </div>
 
             {/* Pokémon Grid */}
